@@ -1,9 +1,10 @@
 const express = require('express');
 const app = express();
 const mongoose = require("mongoose")
-
+require('./models/users')
 
 const { MONGO_URI } = require("./keys")
+
 const port = 3000;
 
 mongoose.connect(MONGO_URI)
