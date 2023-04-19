@@ -3,6 +3,10 @@ const app = express();
 const mongoose = require("mongoose")
 require('./models/users')
 
+app.use(express.json()) // this is middleware as we want all the data to be passed in json
+//also this should be before the requiring of the the routes
+app.use(require("./routes/auth"))
+
 const { MONGO_URI } = require("./keys")
 
 const port = 3000;
@@ -19,10 +23,6 @@ app.listen(port, () => {
     console.log("the server is hosted at port 3000");
 });
 
-app.get("/", (req, res) => {
-    // this is a middleware
-    res.send("hello world");
-});
 
 
 // if we add middleware in as the app.use it will be used after every route but if we need to use it for a specific route we need to pass it
