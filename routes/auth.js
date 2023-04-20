@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs');
 
 
 const User = mongoose.model('User',)
@@ -22,16 +23,19 @@ router.post('/signup', (req, res) => {
                 // we found the user so we will return an error
                 return res.status(422).json({ "error": "the email is already taken" });
             }
-            const user = new User({
-                email,
-                name,
-                password
-            });
-            user.save()
-                .then(user => {
-                    res.json({ "message": "user save sucessfully" })
+            bcrypt.hash(password, 12) //higher the value of the second variable the more the password will be hashed
+                .then(hashedPassword => {
+                    const user = new User({
+                        email,
+                        name,
+                        password : hashedPassword
+                    });
+                    user.save()
+                        .then(user => {
+                            res.json({ "message": "user save sucessfully" })
+                        })
+                        .catch(err => console.log(err))
                 })
-                .catch(err => console.log(err))
         })
         .catch(err => console.log(err))
 });
