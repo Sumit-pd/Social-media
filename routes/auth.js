@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken')
 
 
 const User = mongoose.model('User',)
@@ -51,7 +52,15 @@ router.post('/signin', (req, res) => {
                     if (!isMatched) {
                         return res.status(433).json({ "error": "invalid email or password" })
                     }
-                    return res.json({ "message": "sucessfully signed in" });
+                    // // return res.json({ "message": "sucessfully signed in" });
+                    // /* we need to send a personalize token to the user for accessing a personalized token
+                    //     we will be using a jwt(jsonwebtoken*/
+                     const { JWT_SECRET } = require("../keys")
+                    // // // this is unique part that will be used to create a token
+                    const token = jwt.sign({ _id: user._id }, JWT_SECRET)
+                    // // // this will create a token
+                    res.json({ token })
+                    // res.json({"message":"done"})
                 })
         })
 });
