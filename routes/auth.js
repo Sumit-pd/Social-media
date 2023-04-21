@@ -7,9 +7,7 @@ const bcrypt = require('bcryptjs');
 
 const User = mongoose.model('User',)
 
-router.get('/', (req, res) => {
-    res.send("hello World");
-});
+
 router.post('/signup', (req, res) => {
     const { name, email, password } = req.body; // this is something we get from the frontend part
     if (!name || !email || !password) {
@@ -28,7 +26,7 @@ router.post('/signup', (req, res) => {
                     const user = new User({
                         email,
                         name,
-                        password : hashedPassword
+                        password: hashedPassword
                     });
                     user.save()
                         .then(user => {
@@ -38,5 +36,23 @@ router.post('/signup', (req, res) => {
                 })
         })
         .catch(err => console.log(err))
+});
+
+router.post('/signin', (req, res) => {
+    const { email, password } = req.body;
+    // now we will find the email in the user collection
+    User.findOne({ email: email })
+        .then(user => { // user will be an object
+            if (!user) {
+                return res.status(433).json({ "error": "invalid email or password" })
+            }
+            bcrypt.compare(password, user.password)
+                .then(isMatched => { // ismatched will be boolean value
+                    if (!isMatched) {
+                        return res.status(433).json({ "error": "invalid email or password" })
+                    }
+                    return res.json({ "message": "sucessfully signed in" });
+                })
+        })
 });
 module.exports = router
