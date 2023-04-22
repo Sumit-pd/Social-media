@@ -39,5 +39,15 @@ router.get('/allpost', (req, res) => {
 
 })
 
+router.get('/mypost',login, (req, res) => {
+    // we are making this a protected one as we need top access the req.user that is present in the login middleware
+    Post.find({ postedBy : req.user._id })
+        .populate("postedBy", "name _id")
+        .then(posts => {
+            res.json({ posts })
+        })
+        .catch(err => console.log(err))
+})
+
 
 module.exports = router
