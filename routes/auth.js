@@ -4,10 +4,14 @@ const router = express.Router();
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
+const login = require('../middleware/login')
 
 
 const User = mongoose.model('User',)
 
+router.get('/protected', login, (req, res) => {
+    res.send("hello user");
+})
 
 router.post('/signup', (req, res) => {
     const { name, email, password } = req.body; // this is something we get from the frontend part
@@ -55,13 +59,14 @@ router.post('/signin', (req, res) => {
                     // // return res.json({ "message": "sucessfully signed in" });
                     // /* we need to send a personalize token to the user for accessing a personalized token
                     //     we will be using a jwt(jsonwebtoken*/
-                     const { JWT_SECRET } = require("../keys")
+                    const { JWT_SECRET } = require("../keys")
                     // // // this is unique part that will be used to create a token
                     const token = jwt.sign({ _id: user._id }, JWT_SECRET)
                     // // // this will create a token
                     res.json({ token })
                     // res.json({"message":"done"})
                 })
+                .catch(err => console.log(err))
         })
 });
 module.exports = router
