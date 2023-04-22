@@ -21,9 +21,12 @@ module.exports = (req, res, next) => {
         user.findById(_id)
             .then(userData => {
                 req.user = userData
+                // the next should be written here because the above process will be taking some time for the execution
+                next();
+                //if this is written outside this part then it will save req.user as undefined 
             })
             .catch(err=>console.log(err))
-        next();
+        
 
     })
 

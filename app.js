@@ -1,15 +1,13 @@
 const express = require('express');
 const app = express();
 const mongoose = require("mongoose")
-require('./models/users')
 
-app.use(express.json()) // this is middleware as we want all the data to be passed in json
-//also this should be before the requiring of the the routes
-app.use(require("./routes/auth"))
 
 const { MONGO_URI } = require("./keys")
 
 const port = 3000;
+
+app.use(express.json()) // this is middleware as we want all the data to be passed in json
 
 mongoose.connect(MONGO_URI)
 mongoose.connection.on('connected', () => {
@@ -19,6 +17,16 @@ mongoose.connection.on('error', (err) => {
     console.log("error", err);
 });
 //mongoose.connection.on is a method used in Mongoose, an Object-Document Mapper (ODM) for MongoDB, to listen for various events related to the database connection.
+
+
+
+require('./models/users')
+require('./models/postModel')
+
+//also this should be before the requiring of the the routes
+app.use(require("./routes/auth"))
+app.use(require("./routes/post"))
+
 app.listen(port, () => {
     console.log("the server is hosted at port 3000");
 });

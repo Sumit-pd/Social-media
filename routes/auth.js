@@ -4,14 +4,10 @@ const router = express.Router();
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken')
-const login = require('../middleware/login')
 
 
 const User = mongoose.model('User',)
 
-router.get('/protected', login, (req, res) => {
-    res.send("hello user");
-})
 
 router.post('/signup', (req, res) => {
     const { name, email, password } = req.body; // this is something we get from the frontend part
