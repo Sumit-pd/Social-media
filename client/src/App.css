@@ -43,3 +43,9 @@ h2 {
     width: 30%;
     margin-bottom: 14px;
 }
+
+.home-card{
+    max-width: 900px;
+    height: max-content;
+    margin: 35px auto;
+}
