@@ -4,7 +4,8 @@ a {
     color: black !important;
 }
 
-.brand-logo,h2 {
+.brand-logo,
+h2 {
     font-family: 'Grand Hotel', cursive;
 }
 
@@ -21,11 +22,24 @@ a {
 }
 
 .input-field input[type=text]:focus {
-    border-bottom: 1px solid rgb(18, 5, 204) !important; 
+    border-bottom: 1px solid rgb(18, 5, 204) !important;
     box-shadow: 0 1px 0 0 rgb(14, 5, 142) !important;
 }
-.centre{
+
+.centre {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+
+.item {
+    width: 30%;
+    margin-bottom: 14px;
 }
