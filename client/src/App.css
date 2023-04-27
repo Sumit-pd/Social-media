@@ -44,8 +44,16 @@ h2 {
     margin-bottom: 14px;
 }
 
-.home-card{
+.home-card {
     max-width: 900px;
     height: max-content;
     margin: 35px auto;
+}
+
+
+#toast-container {
+    top: 30px !important;
+    left: auto !important;
+    right: 20% !important;
+    /* background-color: red !important; */
 }
