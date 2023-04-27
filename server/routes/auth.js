@@ -33,8 +33,9 @@ router.post('/signup', (req, res) => {
                         .then(user => {
                             res.json({ "message": "user save sucessfully" })
                         })
-                        .catch(err => console.log(err))
+                        ``.catch(err => console.log(err))
                 })
+                .catch(err => console.log(err))
         })
         .catch(err => console.log(err))
 });
@@ -64,5 +65,6 @@ router.post('/signin', (req, res) => {
                 })
                 .catch(err => console.log(err))
         })
+        .catch(err => console.log(err))
 });
 module.exports = router
