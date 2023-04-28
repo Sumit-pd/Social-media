@@ -10,7 +10,7 @@ const Login = () => {
     if (!emailRegex.test(email)) {
       return M.toast({ html: "incorrect email format", classes: "#e53935 red darken-1" })
     }
-    fetch("http://localhost:3000/signin", {
+    fetch("/signin", {
       method: "post",
       headers: {
         "Content-Type": "application/json"
@@ -28,7 +28,7 @@ const Login = () => {
         }
         else {
           M.toast({ html: "signed in successfully", classes: "#1de9b6 teal accent-3" })
-          console.log(data)
+          // console.log(data)
           navigate('/');
         }
       })

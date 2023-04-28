@@ -11,12 +11,12 @@ const postScheme = new mongoose.Schema({
     },
     photo: {
         type: String,
-        default: "no photo"
+        required: true
     },
     postedBy: {
-        type : ObjectId,
-        ref : "User"
+        type: ObjectId,
+        ref: "User"
 
     }
 })
-mongoose.model("Post" , postScheme)
+mongoose.model("Post", postScheme)

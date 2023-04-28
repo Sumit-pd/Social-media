@@ -7,8 +7,8 @@ const Post = mongoose.model('Post')
 
 
 router.post('/createpost', login, (req, res) => {
-    const { title, body } = req.body;
-    if (!title || !body) {
+    const { title, body, url } = req.body;
+    if (!title || !body || !url) {
         return res.status(422).json({ "error": "please fill the required fields " })
         //422 means unprocessable data
     }
@@ -19,12 +19,13 @@ router.post('/createpost', login, (req, res) => {
     const post = new Post({
         title,
         body,
+        url,
         postedBy: req.user // this includes the details of the user who posted 
 
     })
     post.save()
         .then(result => {
-            res.json({ "post": "done sucessfully" })
+            res.json({ "message": "done sucessfully" })
         })
         .catch(err => console.log(err))
 
@@ -39,9 +40,9 @@ router.get('/allpost', (req, res) => {
 
 })
 
-router.get('/mypost',login, (req, res) => {
+router.get('/mypost', login, (req, res) => {
     // we are making this a protected one as we need top access the req.user that is present in the login middleware
-    Post.find({ postedBy : req.user._id })
+    Post.find({ postedBy: req.user._id })
         .populate("postedBy", "name _id")
         .then(posts => {
             res.json({ posts })

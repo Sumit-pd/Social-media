@@ -19,7 +19,7 @@ const Signup = () => {
     // if (!password.test(password)) {
     //   return M.toast({ html: "", classes: "#e53935 red darken-1" })
     // }
-    fetch("http://localhost:3000/signup", {
+    fetch("/signup", {
       method: "post",
       headers: {
         "Content-Type": "application/json"
