@@ -60,7 +60,12 @@ router.post('/signin', (req, res) => {
                     // // // this is unique part that will be used to create a token
                     const token = jwt.sign({ _id: user._id }, JWT_SECRET)
                     // // // this will create a token
-                    res.json({ token })
+                    const { _id, name, email } = user
+                    res.json({
+                        token, user1: {
+                            _id, name, email
+                        }
+                    })
                     // res.json({"message":"done"})
                 })
                 .catch(err => console.log(err))
