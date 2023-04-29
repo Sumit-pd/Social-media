@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import M from 'materialize-css'
 import { useNavigate } from 'react-router-dom'
 const CreatePost = () => {
@@ -7,6 +7,33 @@ const CreatePost = () => {
     const [caption, setCaption] = useState("")
     const [image, setImage] = useState("") // we need to store the image to a separate storege service and we will store its url in the database
     const [url, setUrl] = useState("")
+    useEffect(() => {
+        if (url) { // this ensure this function is not triggered when the component resender
+            fetch("/createpost", {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("jwt")
+                },
+                body: JSON.stringify({
+                    title, body: caption, url
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.error) {
+                        M.toast({ html: data.error, classes: "#e53935 red darken-1" }) // this will send message present in the error section
+                    }
+                    else {
+                        M.toast({ html: data.message, classes: "#1de9b6 teal accent-3" })
+                        // console.log(data)
+                        navigate("/")
+                    }
+                })
+                .catch(err => console.log(err))
+
+        }
+    }, [url]) //this will triggered when the url is changed
     const postData = () => {
         const formData = new FormData(); //this is used for file uploading
         //https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#uploading_a_file 
@@ -20,31 +47,10 @@ const CreatePost = () => {
             .then(res => res.json())
             .then(data => {
                 // console.log(data)
-                setUrl(data.url)
+                setUrl(data.url) //asyncronus 
             })
             .catch(err => console.log(err))
         // does not directly return the JSON response body but instead returns a promise that resolves with a Response object.
-        fetch("/createpost", {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                title, caption, url
-            })
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.error) {
-                    M.toast({ html: data.error, classes: "#e53935 red darken-1" }) // this will send message present in the error section
-                }
-                else {
-                    M.toast({ html: data.message, classes: "#1de9b6 teal accent-3" })
-                    // console.log(data)
-                    // navigate("/login")
-                }
-            })
-            .catch(err => console.log(err))
 
 
     }

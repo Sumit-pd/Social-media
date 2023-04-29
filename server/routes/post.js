@@ -9,6 +9,7 @@ const Post = mongoose.model('Post')
 router.post('/createpost', login, (req, res) => {
     const { title, body, url } = req.body;
     if (!title || !body || !url) {
+        // console.log(title, body, url)
         return res.status(422).json({ "error": "please fill the required fields " })
         //422 means unprocessable data
     }
@@ -19,7 +20,7 @@ router.post('/createpost', login, (req, res) => {
     const post = new Post({
         title,
         body,
-        url,
+        photo: url,
         postedBy: req.user // this includes the details of the user who posted 
 
     })

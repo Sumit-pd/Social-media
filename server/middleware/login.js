@@ -26,8 +26,6 @@ module.exports = (req, res, next) => {
                 //if this is written outside this part then it will save req.user as undefined 
             })
             .catch(err=>console.log(err))
-        
-
     })
 
 }
