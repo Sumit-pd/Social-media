@@ -26,6 +26,11 @@ h2 {
     box-shadow: 0 1px 0 0 rgb(14, 5, 142) !important;
 }
 
+.input-field input[type=password]:focus {
+    border-bottom: 1px solid rgb(18, 5, 204) !important;
+    box-shadow: 0 1px 0 0 rgb(14, 5, 142) !important;
+}
+
 .centre {
     display: flex;
     align-items: center;

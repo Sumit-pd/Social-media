@@ -8,7 +8,7 @@ import Login from "./components/screens/Login"
 import Signup from "./components/screens/Signup"
 import Error from "./components/screens/Error";
 import CreatePost from "./components/screens/CreatePost";
-import { initialState, userReducer } from "./reducer/userReducer";
+import { initialState, UserReducer } from "./reducer/UserReducer";
 
 
 const UserContext = createContext();
@@ -47,7 +47,7 @@ const Routing = () => {
 
 function App() {
 
-  const [state, dispatch] = useReducer(userReducer, initialState);
+  const [state, dispatch] = useReducer(UserReducer, initialState);
 
   return (
     <>

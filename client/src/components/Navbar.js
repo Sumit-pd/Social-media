@@ -1,7 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import CreatePost from './screens/CreatePost'
+import { useUserContext } from '../App'
 const Navbar = () => {
+    const {state , dispatch } = useUserContext() ;
     return (
         <div>
             <nav>
@@ -12,6 +14,13 @@ const Navbar = () => {
                         <li><Link to="/signup">Signup</Link></li>
                         <li><Link to="profile">Profile</Link></li>
                         <li><Link to="create">Create Post</Link></li>
+                        <li><button
+                            className="waves-effect waves-light btn #d32f2f red darken-2"
+                            onClick={() => {
+                                localStorage.clear();
+                                dispatch({ type: "CLEAR" }) ;
+                            }}
+                        >Logout</button></li>
                     </ul>
                 </div>
             </nav>

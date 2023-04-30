@@ -6,7 +6,7 @@ const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const navigate = useNavigate();
-  const {state , dispatch} = useUserContext() ;
+  const { state, dispatch } = useUserContext();
   const postData = () => {
     const emailRegex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
     if (!emailRegex.test(email)) {
@@ -31,7 +31,7 @@ const Login = () => {
         else {
           localStorage.setItem("jwt", data.token);
           localStorage.setItem("user", JSON.stringify(data.user1));
-          dispatch({type : "USER" , payload : data.user1})
+          dispatch({ type: "USER", payload: data.user1 })
           M.toast({ html: "signed in successfully", classes: "#1de9b6 teal accent-3" })
           // console.log(data)
           navigate('/');
@@ -50,7 +50,7 @@ const Login = () => {
           onChange={e => setEmail(e.target.value)}
         />
         <input
-          type="text"
+          type="password"
           placeholder="password"
           value={password}
           onChange={e => setPassword(e.target.value)}

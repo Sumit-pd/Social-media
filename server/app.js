@@ -7,7 +7,7 @@ const mongoose = require("mongoose")
 const { MONGO_URI } = require("./keys")
 // app.use(cors())
 
-const port = 3000;
+const port = 5000;
 
 app.use(express.json()) // this is middleware as we want all the data to be passed in json
 
@@ -30,7 +30,7 @@ app.use(require("./routes/auth"))
 app.use(require("./routes/post"))
 
 app.listen(port, () => {
-    console.log("the server is hosted at port 3000");
+    console.log("the server is hosted at port ", port);
 });
 
 
