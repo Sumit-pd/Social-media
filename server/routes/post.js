@@ -52,4 +52,36 @@ router.get('/mypost', login, (req, res) => {
 })
 
 
+router.put('/like', login, (req, res) => {
+    Post.findByIdAndUpdate(req.body.post, { // this will be sent from the frontend
+        $push:{likes : req.user._id} // this will push the element to the back of the likes array
+    }, {
+        new : true // this will make mongodb to return a new file
+    })
+    .exec((err , result ) =>{
+        if(err){
+            res.status(422).json({"error" : err})
+        }
+        else{
+            res.json(result)
+        }
+    })
+})
+router.put('/unlike', login, (req, res) => {
+    Post.findByIdAndUpdate(req.body.post, { // this will be sent from the frontend
+        $pull:{likes : req.user._id} // this will push the element to the back of the likes array
+    }, {
+        new : true // this will make mongodb to return a new file m , if we don't do then mongodb will return an old record
+    })
+    .exec((err , result ) =>{
+        if(err){
+            res.status(422).json({"error" : err})
+        }
+        else{
+            res.json(result)
+        }
+    })
+})
+
+
 module.exports = router

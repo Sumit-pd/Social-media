@@ -13,6 +13,11 @@ const postScheme = new mongoose.Schema({
         type: String,
         required: true
     },
+    like: [{
+        // this is an array of all the people liking the post 
+        type: ObjectId, // this will be storing id of the people liking the post
+        ref: "User"
+    }], 
     postedBy: {
         type: ObjectId,
         ref: "User"
