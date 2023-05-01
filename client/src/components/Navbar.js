@@ -1,9 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import CreatePost from './screens/CreatePost'
 import { useUserContext } from '../App'
+
 const Navbar = () => {
-    const {state , dispatch } = useUserContext() ;
+    const { state, dispatch } = useUserContext();
+    const navigate = useNavigate();
     return (
         <div>
             <nav>
@@ -18,7 +20,8 @@ const Navbar = () => {
                             className="waves-effect waves-light btn #d32f2f red darken-2"
                             onClick={() => {
                                 localStorage.clear();
-                                dispatch({ type: "CLEAR" }) ;
+                                dispatch({ type: "CLEAR" });
+                                navigate('/login')
                             }}
                         >Logout</button></li>
                     </ul>
