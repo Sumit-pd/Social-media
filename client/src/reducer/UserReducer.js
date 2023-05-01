@@ -2,7 +2,6 @@ import M from "materialize-css";
 // import {useNavigate} from "react-router-dom"
 const initialState = "";
 const UserReducer = (state, action) => {
-    // const navigate = useNavigate()
     if (action.type === "USER") {
         return action.payload;
     }
