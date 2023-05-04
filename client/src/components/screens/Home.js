@@ -1,15 +1,11 @@
-import { FcLike } from "react-icons/fc";
 import { useEffect, useState } from "react";
 
 
 
 const Home = () => {
 
-
-
   const [images, setImages] = useState([]);
-
-
+  // const [likes, setLikes] = useState(0);
 
   useEffect(() => {
     fetch("/allpost", {
@@ -23,6 +19,36 @@ const Home = () => {
         // console.log(data)
       })
   }, [])
+  const likePost = (id) => {
+    fetch("/like", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem('jwt')
+      },
+      body: JSON.stringify({
+        postId: id
+      })
+    })
+      .then(res => res.json())
+      .then(result => {
+        console.log(result)
+      })
+  }
+  const unLikePost = (id) => {
+    fetch("/unlike", {
+      method: "put",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem('jwt')
+      },
+      body: JSON.stringify({
+        postId: id
+      })
+    })
+      .then(res => res.json())
+      .then(result => console.log(result))
+  }
   return (
     <div className='home'>
       {
@@ -34,7 +60,19 @@ const Home = () => {
                 <img src={curElem.photo} />
               </div>
               <div className='card-content'>
-                <FcLike />
+                <i className="material-icons"
+                  onClick={() => {
+                    likePost(curElem._id)
+                    // setLikes(curElem.like.length)
+                  }}
+                >thumb_up</i>
+                <i className="material-icons"
+                  onClick={() => {
+                    unLikePost(curElem._id)
+                    // setLikes(curElem.like.length)
+                  }}
+                >thumb_down</i>
+                <h6 >{curElem.like.length} likes</h6>
                 <h5>{curElem.title}</h5>
                 <p>{curElem.body}</p>
                 <div style={{ display: "flex" }}>
@@ -43,7 +81,7 @@ const Home = () => {
                     <button className="waves-effect waves-light btn #0288d1 light-blue darken-2" >
                       post
                     </button>
-                    </div>
+                  </div>
 
                 </div>
 
