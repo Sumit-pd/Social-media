@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
+import { useUserContext } from "../../App";
 
 
 
 const Home = () => {
-
+  const { state, dispact } = useUserContext()
   const [images, setImages] = useState([]);
-  // const [likes, setLikes] = useState(0);
+  // const [likes, setLikes] = useState(images.like.length);
 
   useEffect(() => {
     fetch("/allpost", {
@@ -32,8 +33,19 @@ const Home = () => {
     })
       .then(res => res.json())
       .then(result => {
-        console.log(result)
+        //this is to update the likes array
+        const newArr = images.map(curElem => {
+          if (curElem._id === result) {
+            return result
+          }
+          else {
+            return curElem;
+          }
+        })
+        setImages(newArr);
+        // setLikes(newArr.like.length)
       })
+      .catch(err => console.log(err))
   }
   const unLikePost = (id) => {
     fetch("/unlike", {
@@ -47,7 +59,20 @@ const Home = () => {
       })
     })
       .then(res => res.json())
-      .then(result => console.log(result))
+      .then(result => {
+        //this is to update the likes array
+        const newArr = images.map(curElem => {
+          if (curElem._id === result) {
+            return result
+          }
+          else {
+            return curElem;
+          }
+        })
+        setImages(newArr);
+        // setLikes(newArr.like.length)
+      })
+      .catch(err => console.log(err))
   }
   return (
     <div className='home'>
@@ -60,18 +85,19 @@ const Home = () => {
                 <img src={curElem.photo} />
               </div>
               <div className='card-content'>
-                <i className="material-icons"
-                  onClick={() => {
-                    likePost(curElem._id)
-                    // setLikes(curElem.like.length)
-                  }}
-                >thumb_up</i>
-                <i className="material-icons"
-                  onClick={() => {
-                    unLikePost(curElem._id)
-                    // setLikes(curElem.like.length)
-                  }}
-                >thumb_down</i>
+                {
+                  curElem.like.includes(state._id)
+                    ?
+                    <i className="material-icons"
+                      onClick={() => {
+                        unLikePost(curElem._id)
+                      }}>thumb_down</i> :
+                    <i className="material-icons"
+                      onClick={() => {
+                        likePost(curElem._id)
+                      }}
+                    >thumb_up</i>
+                }
                 <h6 >{curElem.like.length} likes</h6>
                 <h5>{curElem.title}</h5>
                 <p>{curElem.body}</p>
