@@ -4,7 +4,7 @@ import { useUserContext } from "../../App";
 
 
 const Home = () => {
-  const { state, dispact } = useUserContext()
+  const { state, dispatch } = useUserContext()
   const [images, setImages] = useState([]);
   // const [likes, setLikes] = useState(images.like.length);
 

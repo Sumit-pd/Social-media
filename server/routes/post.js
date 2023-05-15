@@ -65,12 +65,32 @@ router.put('/like', login, (req, res) => {
             res.status(422).json({ "error": err })
         })
 })
+
+
 router.put('/unlike', login, (req, res) => {
     Post.findByIdAndUpdate(req.body.postId, { // this will be sent from the frontend
         $pull: { like: req.user._id } // this will push the element to the back of the likes array
     }, {
         new: true // this will make mongodb to return a new file m , if we don't do then mongodb will return an old record
     })
+        .then(result => {
+            res.json(result)
+        })
+        .catch(err => {
+            res.status(422).json({ "error": err })
+        })
+})
+router.put('/comment', login, (req, res) => {
+    const comment = {
+        text: req.body.text,
+        postedBy: req.user._id
+    }
+    Post.findByIdAndUpdate(req.body.postId, { // this will be sent from the frontend
+        $pull: { comments: comment } // this will push the element to the back of the comment array
+    }, {
+        new: true // this will make mongodb to return a new file m , if we don't do then mongodb will return an old record
+    })
+        .populate("comments", "_id name")
         .then(result => {
             res.json(result)
         })
