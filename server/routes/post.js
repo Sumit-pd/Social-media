@@ -35,6 +35,7 @@ router.post('/createpost', login, (req, res) => {
 router.get('/allpost', (req, res) => {
     Post.find()
         .populate("postedBy", "_id name") // this will avoid the getting of only objectId and return us the name and id as we are passing them in the arguments
+        .populate("comments.postedBy" , "_id name")
         .then(posts => {
             res.json({ posts })
         })
@@ -86,11 +87,12 @@ router.put('/comment', login, (req, res) => {
         postedBy: req.user._id
     }
     Post.findByIdAndUpdate(req.body.postId, { // this will be sent from the frontend
-        $pull: { comments: comment } // this will push the element to the back of the comment array
+        $push: { comments: comment } // this will push the element to the back of the comment array
     }, {
         new: true // this will make mongodb to return a new file m , if we don't do then mongodb will return an old record
     })
-        .populate("comments", "_id name")
+        .populate("comments.postedBy", "_id name")
+        .populate("postedBy", "_id name")
         .then(result => {
             res.json(result)
         })
