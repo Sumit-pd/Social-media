@@ -35,7 +35,7 @@ router.post('/createpost', login, (req, res) => {
 router.get('/allpost', (req, res) => {
     Post.find()
         .populate("postedBy", "_id name") // this will avoid the getting of only objectId and return us the name and id as we are passing them in the arguments
-        .populate("comments.postedBy" , "_id name")
+        .populate("comments.postedBy", "_id name")
         .then(posts => {
             res.json({ posts })
         })
@@ -81,6 +81,9 @@ router.put('/unlike', login, (req, res) => {
             res.status(422).json({ "error": err })
         })
 })
+
+
+
 router.put('/comment', login, (req, res) => {
     const comment = {
         text: req.body.text,
@@ -100,6 +103,25 @@ router.put('/comment', login, (req, res) => {
             res.status(422).json({ "error": err })
         })
 })
+
+
+router.delete('/deletePost/:postId', login, (req, res) => {
+    Post.findOne({ id: req.params.id }) // finding the post id
+        .populate("postedBy", "_id")
+        .then(post => {
+            if (post.postedBy._id.toString() === req.user._id.toString()) { //this is for conversion of the object to string
+                post.remove()
+                    .then(result => {
+                        res.json({ message: "postDeleted" });
+                    })
+                    .catch(err => console.log(err))
+            }
+        })
+        .catch(err => {
+            res.json({ error: err })
+        })
+
+});
 
 
 module.exports = router
