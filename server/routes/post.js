@@ -106,19 +106,27 @@ router.put('/comment', login, (req, res) => {
 
 
 router.delete('/deletePost/:postId', login, (req, res) => {
-    Post.findOne({ id: req.params.id }) // finding the post id
+    // console.log(req.params.postId)
+    Post.findOne({ _id: req.params.postId }) // finding the post id
         .populate("postedBy", "_id")
         .then(post => {
+            if (!post) {
+                return res.json({ error: "post not found" });
+            }
             if (post.postedBy._id.toString() === req.user._id.toString()) { //this is for conversion of the object to string
-                post.remove()
+                Post.deleteOne({ _id: req.params.postId })
                     .then(result => {
-                        res.json({ message: "postDeleted" });
+                        return res.json({ message: result });
                     })
                     .catch(err => console.log(err))
             }
+            else {
+                return res.status(403).json({ error: "Unauthorized access" });
+            }
         })
         .catch(err => {
-            res.json({ error: err })
+            console.log(err)
+            res.json({ error: "backend errror" })
         })
 
 });

@@ -104,13 +104,37 @@ const Home = () => {
       .catch(err => console.log(err))
 
   }
+
+  const deletePost = (postId) => {
+    fetch(`/deletePost/${postId}`, {
+      method: 'delete',
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem('jwt')
+      },
+    })
+      .then(res => res.json())
+      .then(result => {
+        console.log(result)
+        const newData = images.filter(curElem => {
+          return curElem._id !== result._id ;
+        })
+        setImages(newData)
+      })
+      .catch(err => console.log(err))
+  }
   return (
     <div className='home'>
       {
         images.map((curElem) => {
           return (
             <div className='card home-card' key={curElem._id}>
-              <h5>{curElem.postedBy.name}</h5>
+              <h5>
+                {curElem.postedBy.name}
+                {
+                  //we will only be adding the delete icon if the post belongs to the loggedIn user
+                  curElem.postedBy._id === state._id && <i className="material-icons" style={{ float: "right" }} onClick={() => deletePost(curElem._id)}>delete</i>
+                }
+              </h5>
               <div className='card-image'>
                 <img src={curElem.photo} />
               </div>
@@ -130,7 +154,7 @@ const Home = () => {
                 <p>{curElem.body}</p>
                 {
                   curElem.comments.map(records => {
-                    {/* console.log(records) */}
+                    {/* console.log(records) */ }
                     return (<h6 key={records._id}>
                       <span style={{ fontWeight: "500" }}>{records.postedBy.name}</span> <span>{records.text}</span>
                     </h6>)
