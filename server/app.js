@@ -28,6 +28,7 @@ require('./models/postModel')
 //also this should be before the requiring of the the routes
 app.use(require("./routes/auth"))
 app.use(require("./routes/post"))
+app.use(require("./routes/user"))
 
 app.listen(port, () => {
     console.log("the server is hosted at port ", port);

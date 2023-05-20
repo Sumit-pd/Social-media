@@ -125,8 +125,8 @@ router.delete('/deletePost/:postId', login, (req, res) => {
             }
         })
         .catch(err => {
-            console.log(err)
-            res.json({ error: "backend errror" })
+            // console.log(err)
+            res.json({ error: err })
         })
 
 });
