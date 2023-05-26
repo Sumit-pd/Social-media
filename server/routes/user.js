@@ -4,11 +4,13 @@ const mongoose = require('mongoose');
 const login = require('../middleware/login');
 
 const User = mongoose.model('User');
+const Post = mongoose.model('Post')
 
 
-router.get('/user/:id', (req, res) => {
+router.get('/user/:id',  login, (req, res) => {
+    // console.log(req.params.id)
     User.findOne({ _id: req.params.id })
-        .select("-password")
+        .select("-password") //this line will remove the password from the data
         .then(user => {
             if (!user) {
                 return res.status(404).json({ err: "User not found" });

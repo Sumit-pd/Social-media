@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useUserContext } from "../../App";
+import { Link } from "react-router-dom";
 
 
 
@@ -116,7 +117,7 @@ const Home = () => {
       .then(result => {
         console.log(result)
         const newData = images.filter(curElem => {
-          return curElem._id !== result._id ;
+          return curElem._id !== result._id;
         })
         setImages(newData)
       })
@@ -129,7 +130,8 @@ const Home = () => {
           return (
             <div className='card home-card' key={curElem._id}>
               <h5>
-                {curElem.postedBy.name}
+                <Link to={curElem.postedBy._id !== state._id ? "/profile/" + curElem.postedBy._id : "/myprofile"}>
+                  {curElem.postedBy.name} </Link>
                 {
                   //we will only be adding the delete icon if the post belongs to the loggedIn user
                   curElem.postedBy._id === state._id && <i className="material-icons" style={{ float: "right" }} onClick={() => deletePost(curElem._id)}>delete</i>
