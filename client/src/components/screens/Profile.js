@@ -5,6 +5,7 @@ const Profile = () => {
   const { state, dispatch } = useUserContext();
   const [myPics, setMyPics] = useState([]);
   useEffect(() => {
+    // console.log(state)
     fetch("/mypost", {
       headers: {
         "Authorization": "Bearer " + localStorage.getItem('jwt')
@@ -34,12 +35,12 @@ const Profile = () => {
           />
         </div>
         <div>
-          <h4>{state.name}</h4>
+          <h4>{state ? state.user.name : "loading...!"} </h4>
           <div style={{ display: "flex", justifyContent: 'space-between', width: "111%" }}>
 
-            <h6> 5 posts</h6>
-            <h6> 1005 followers</h6>
-            <h6> 425 following</h6>
+            <h6> {state ? myPics.length : 0} posts</h6>
+            <h6> {state ? state.user.followers.length : 0} followers</h6>
+            <h6> {state ? state.user.following.length : 0} following</h6>
 
           </div>
         </div>
@@ -52,12 +53,6 @@ const Profile = () => {
             )
           })
         }
-        {/* <img className='item' src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60" />
-        <img className='item' src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60" />
-        <img className='item' src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60" />
-        <img className='item' src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60" />
-        <img className='item' src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60" />
-        <img className='item' src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cGVyc29ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60" /> */}
       </div>
     </div>
   )
