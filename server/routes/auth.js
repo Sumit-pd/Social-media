@@ -60,10 +60,10 @@ router.post('/signin', (req, res) => {
                     // // // this is unique part that will be used to create a token
                     const token = jwt.sign({ _id: user._id }, JWT_SECRET)
                     // // // this will create a token
-                    const { _id, name, email } = user
+                    const { _id, name, email, followers, following } = user
                     res.json({
                         token, user1: {
-                            _id, name, email
+                            _id, name, email,followers, following
                         }
                     })
                     // res.json({"message":"done"})

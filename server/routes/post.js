@@ -32,8 +32,17 @@ router.post('/createpost', login, (req, res) => {
 
 })
 
-router.get('/allpost', (req, res) => {
+router.get('/allpost', login, (req, res) => {
     Post.find()
+        .populate("postedBy", "_id name") // this will avoid the getting of only objectId and return us the name and id as we are passing them in the arguments
+        .populate("comments.postedBy", "_id name")
+        .then(posts => {
+            res.json({ posts })
+        })
+
+})
+router.get('/followingPost', login, (req, res) => {
+    Post.find({postedBy : {$in:req.user.following}})
         .populate("postedBy", "_id name") // this will avoid the getting of only objectId and return us the name and id as we are passing them in the arguments
         .populate("comments.postedBy", "_id name")
         .then(posts => {
