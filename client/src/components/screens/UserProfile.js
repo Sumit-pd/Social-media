@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useUserContext } from '../../App';
 
 const UserProfile = () => {
+  const [isFollow, setIsFollow] = useState(false)
   const { state, dispatch } = useUserContext();
   const [profileData, setProfileData] = useState(null);
   const { userid } = useParams();
@@ -31,17 +32,49 @@ const UserProfile = () => {
       .then(res => res.json())
       .then(result => {
         // console.log(result)
+
         dispatch({ type: "UPDATE", payload: { followers: profileData.followers, following: profileData.following } })
         localStorage.setItem("user", JSON.stringify(profileData))
         setProfileData(prevData => {
           return {
             ...prevData,
             user: {
-              ...prevData.user , 
-              followers : [...prevData.user.followers , result._id]
+              ...prevData.user,
+              followers: [...prevData.user.followers, result._id]
             }
           }
         })
+        setIsFollow(true);
+      })
+      .catch(err => console.log(err))
+
+  }
+  const unFollowUser = () => {
+    fetch("/unfollow", {
+      method: 'put',
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem('jwt'),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ unfollowId: userid })
+    })
+      .then(res => res.json())
+      .then(result => {
+        // console.log(result)
+
+        dispatch({ type: "UPDATE", payload: { followers: profileData.followers, following: profileData.following } })
+        localStorage.setItem("user", JSON.stringify(profileData))
+        setProfileData(prevData => {
+          const followArr = prevData.user.followers.filter(item => item !== result._id) // here we are removing the data of the user that has unfollowed
+          return {
+            ...prevData,
+            user: {
+              ...prevData.user,
+              followers: followArr
+            }
+          }
+        })
+        setIsFollow(false)
       })
       .catch(err => console.log(err))
 
@@ -73,10 +106,18 @@ const UserProfile = () => {
                   <h6> {profileData.posts.length} posts</h6>
                   <h6> {profileData.user.followers.length} followers</h6>
                   <h6> {profileData.user.following.length} following</h6>
-                  <button
-                    className="waves-effect waves-light btn #039be5 light-blue darken-1"
-                    onClick={followUser}
-                  >follow</button>
+                  {
+                    isFollow === true ? <button
+                      className="waves-effect waves-light btn #039be5 light-blue darken-1"
+                      onClick={unFollowUser}
+                    >unfollow</button>
+                      :
+                      <button
+                        className="waves-effect waves-light btn #039be5 light-blue darken-1"
+                        onClick={followUser}
+                      >follow</button>
+                  }
+
 
                 </div>
               </div>
