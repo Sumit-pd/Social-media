@@ -52,20 +52,20 @@ router.put('/follow', login, (req, res) => {
     )
         .then(result => {
             // now we will update the loggedIn user following array
-            User.findByIdAndUpdate(req.user._id , {
-                $push : {following : req.body.followId} , 
-            } , { new : true} ) // mongoose will return a new document 
-            .then(newResult => {
-                res.json(newResult)
-            })
-            .catch(err => {
-                console.log(err) 
-                return res.json(err) 
-            })
+            User.findByIdAndUpdate(req.user._id, {
+                $push: { following: req.body.followId },
+            }, { new: true }).select("-password") // mongoose will return a new document 
+                .then(newResult => {
+                    res.json(newResult)
+                })
+                .catch(err => {
+                    console.log(err)
+                    return res.json(err)
+                })
         })
         .catch(err => {
             console.log(err);
-            res.status(422).json({error : err});
+            res.status(422).json({ error: err });
         })
 })
 router.put('/unfollow', login, (req, res) => {
@@ -82,20 +82,20 @@ router.put('/unfollow', login, (req, res) => {
     )
         .then(result => {
             // now we will update the loggedIn user following array
-            User.findByIdAndUpdate(req.user._id , {
-                $pull : {following : req.body.unfollowId} , 
-            } , { new : true} ) // mongoose will return a new document 
-            .then(newResult => {
-                res.json(newResult)
-            })
-            .catch(err => {
-                console.log(err) 
-                return res.json(err) 
-            })
+            User.findByIdAndUpdate(req.user._id, {
+                $pull: { following: req.body.unfollowId },
+            }, { new: true }) // mongoose will return a new document 
+                .then(newResult => {
+                    res.json(newResult)
+                })
+                .catch(err => {
+                    console.log(err)
+                    return res.json(err)
+                })
         })
         .catch(err => {
             console.log(err);
-            res.status(422).json({error : err});
+            res.status(422).json({ error: err });
         })
 })
 module.exports = router

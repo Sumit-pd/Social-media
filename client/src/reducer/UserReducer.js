@@ -11,6 +11,13 @@ const UserReducer = (state, action) => {
         // navigate("/"); // Navigate to home page when user logs out
         return null;
     }
+    if(action.type === "UPDATE"){
+        return {
+            ...state , 
+            followers : action.payload.followers ,
+            following : action.payload.following
+        }
+    }
 
     return state;
 };

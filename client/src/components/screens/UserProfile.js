@@ -15,10 +15,38 @@ const UserProfile = () => {
     })
       .then(res => res.json())
       .then(result => {
-        // console.log(result)
         setProfileData(result)
       })
   }, [])
+
+  const followUser = () => {
+    fetch("/follow", {
+      method: 'put',
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem('jwt'),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ followId: userid })
+    })
+      .then(res => res.json())
+      .then(result => {
+        // console.log(result)
+        dispatch({ type: "UPDATE", payload: { followers: profileData.followers, following: profileData.following } })
+        localStorage.setItem("user", JSON.stringify(profileData))
+        setProfileData(prevData => {
+          return {
+            ...prevData,
+            user: {
+              ...prevData.user , 
+              followers : [...prevData.user.followers , result._id]
+            }
+          }
+        })
+      })
+      .catch(err => console.log(err))
+
+  }
+
   return (
     <>
       {
@@ -43,8 +71,12 @@ const UserProfile = () => {
                 <div style={{ display: "flex", justifyContent: 'space-between', width: "111%" }}>
 
                   <h6> {profileData.posts.length} posts</h6>
-                  <h6> 1005 followers</h6>
-                  <h6> 425 following</h6>
+                  <h6> {profileData.user.followers.length} followers</h6>
+                  <h6> {profileData.user.following.length} following</h6>
+                  <button
+                    className="waves-effect waves-light btn #039be5 light-blue darken-1"
+                    onClick={followUser}
+                  >follow</button>
 
                 </div>
               </div>
