@@ -9,6 +9,7 @@ import Signup from "./components/screens/Signup"
 import Error from "./components/screens/Error";
 import CreatePost from "./components/screens/CreatePost";
 import UserProfile from "./components/screens/UserProfile";
+import SubscriberPost from "./components/screens/SubscriberPost";
 import { initialState, UserReducer } from "./reducer/UserReducer";
 
 
@@ -36,13 +37,14 @@ const Routing = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<SubscriberPost />} />
         <Route path="/myprofile" element={<Profile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="*" element={<Error />} />
         <Route path="create" element={<CreatePost />} />
         <Route path="/profile/:userid" element={<UserProfile />} />
+        <Route path="/explore" element={<Home/>} />
       </Routes>
     </>
   )

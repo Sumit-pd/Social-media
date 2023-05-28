@@ -4,13 +4,13 @@ import { Link } from "react-router-dom";
 
 
 
-const Home = () => {
+const SubscriberPost = () => {
   const { state, dispatch } = useUserContext()
   const [images, setImages] = useState([]);
   // const [likes, setLikes] = useState(images.like.length);
 
   useEffect(() => {
-    fetch("/allpost", {
+    fetch("/followingPost", {
       headers: {
         "Authorization": "Bearer " + localStorage.getItem('jwt')
       }
@@ -129,9 +129,9 @@ const Home = () => {
         images.map((curElem) => {
           return (
             <div className='card home-card' key={curElem._id}>
-              <h5 style={{padding:"8px"}}>
+              <h5 style={{padding : "8px"}}>
                 <Link to={curElem.postedBy._id !== state._id ? "/profile/" + curElem.postedBy._id : "/myprofile"}>
-                  {curElem.postedBy.name } </Link>
+                  {curElem.postedBy.name} </Link>
                 {
                   //we will only be adding the delete icon if the post belongs to the loggedIn user
                   curElem.postedBy._id === state._id && <i className="material-icons" style={{ float: "right" }} onClick={() => deletePost(curElem._id)}>delete</i>
@@ -183,4 +183,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default SubscriberPost

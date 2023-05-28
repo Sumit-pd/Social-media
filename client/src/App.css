@@ -62,3 +62,7 @@ h2 {
     right: 20% !important;
     /* background-color: red !important; */
 }
+
+.material-icons:hover {
+    cursor: pointer;
+}
