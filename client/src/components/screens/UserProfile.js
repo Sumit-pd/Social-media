@@ -3,10 +3,12 @@ import { useParams } from 'react-router-dom';
 import { useUserContext } from '../../App';
 
 const UserProfile = () => {
-  const [isFollow, setIsFollow] = useState(false)
   const { state, dispatch } = useUserContext();
   const [profileData, setProfileData] = useState(null);
   const { userid } = useParams();
+  const [isFollow, setIsFollow] = useState(
+    state ? (state.following ? state.following.includes(userid) : false) : false
+  )
   // console.log(userid)
   useEffect(() => {
     fetch(`/user/${userid}`, {
@@ -44,7 +46,7 @@ const UserProfile = () => {
             }
           }
         })
-        setIsFollow(true);
+        setIsFollow(false);
       })
       .catch(err => console.log(err))
 
@@ -74,7 +76,7 @@ const UserProfile = () => {
             }
           }
         })
-        setIsFollow(false)
+        setIsFollow(true)
       })
       .catch(err => console.log(err))
 
@@ -107,15 +109,16 @@ const UserProfile = () => {
                   <h6> {profileData.user.followers.length} followers</h6>
                   <h6> {profileData.user.following.length} following</h6>
                   {
-                    isFollow === true ? <button
-                      className="waves-effect waves-light btn #039be5 light-blue darken-1"
-                      onClick={unFollowUser}
-                    >unfollow</button>
-                      :
+                    isFollow === true ?
                       <button
                         className="waves-effect waves-light btn #039be5 light-blue darken-1"
                         onClick={followUser}
                       >follow</button>
+                      : <button
+                        className="waves-effect waves-light btn #039be5 light-blue darken-1"
+                        onClick={unFollowUser}
+                      >unfollow</button>
+
                   }
 
 
