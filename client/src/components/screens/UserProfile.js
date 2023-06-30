@@ -40,6 +40,8 @@ const UserProfile = () => {
         setProfileData(prevData => {
           return {
             ...prevData,
+            /*here if we directly use the prevData and set the user the
+             data then the data will be having logged in user but we need to update the data of the user whose profile is being followed */
             user: {
               ...prevData.user,
               followers: [...prevData.user.followers, result._id]
