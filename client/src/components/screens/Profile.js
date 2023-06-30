@@ -36,6 +36,7 @@ const Profile = () => {
         </div>
         <div>
           <h4>{state ? state.user.name : "loading...!"} </h4>
+          <h6>{state ? state.user.email : "loading...!"} </h6>
           <div style={{ display: "flex", justifyContent: 'space-between', width: "111%" }}>
 
             <h6> {state ? myPics.length : 0} posts</h6>

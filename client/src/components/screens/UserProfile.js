@@ -10,6 +10,8 @@ const UserProfile = () => {
     state ? (state.following ? state.following.includes(userid) : false) : false
   )
   // console.log(userid)
+  const [image, setImage] = useState("")
+  const [url, setUrl] = useState("")
   useEffect(() => {
     fetch(`/user/${userid}`, {
       headers: {
