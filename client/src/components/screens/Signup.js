@@ -8,6 +8,12 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
+  const [image, setImage] = useState()
+  const [url, setUrl] = useState();
+
+  const uploadPic = () => {
+    
+  }
 
   const postData = () => {
     const emailRegex = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
@@ -66,6 +72,18 @@ const Signup = () => {
           className="waves-effect waves-light btn #039be5 light-blue darken-1"
           onClick={postData}
         >Signup</button>
+        <div className="file-field input-field">
+          <div className="btn #039be5 blue darken-1">
+            <span>Upload Image</span>
+            <input
+              type="file"
+              onChange={e => setImage(e.target.files[0])} // in the 0th index there will be a file object
+            />
+          </div>
+          <div className="file-path-wrapper">
+            <input className="file-path validate" type="text" />
+          </div>
+        </div>
         <Link to="/login">
           <h5 >already have an account ? </h5>
         </Link>
