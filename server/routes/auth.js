@@ -10,7 +10,7 @@ const User = mongoose.model('User',)
 
 
 router.post('/signup', (req, res) => {
-    const { name, email, password } = req.body; // this is something we get from the frontend part
+    const { name, email, password, pic } = req.body; // this is something we get from the frontend part
     if (!name || !email || !password) {
         return res.status(422).json({ error: "please fill all the details" })
         //status 422 means that the server has understood the details but cannot process it
@@ -27,13 +27,14 @@ router.post('/signup', (req, res) => {
                     const user = new User({
                         email,
                         name,
-                        password: hashedPassword
+                        password: hashedPassword,
+                        pic
                     });
                     user.save()
                         .then(user => {
                             res.json({ "message": "user save sucessfully" })
                         })
-                        ``.catch(err => console.log(err))
+                        .catch(err => console.log(err))
                 })
                 .catch(err => console.log(err))
         })
@@ -60,10 +61,10 @@ router.post('/signin', (req, res) => {
                     // // // this is unique part that will be used to create a token
                     const token = jwt.sign({ _id: user._id }, JWT_SECRET)
                     // // // this will create a token
-                    const { _id, name, email, followers, following } = user
+                    const { _id, name, email, followers, following, pic } = user
                     res.json({
                         token, user1: {
-                            _id, name, email,followers, following
+                            _id, name, email, followers, following, pic
                         }
                     })
                     // res.json({"message":"done"})

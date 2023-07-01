@@ -8,8 +8,8 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
-  const [image, setImage] = useState()
-  const [url, setUrl] = useState();
+  const [image, setImage] = useState("")
+  const [url, setUrl] = useState(undefined);
 
 
   useEffect(() => {
@@ -52,7 +52,7 @@ const Signup = () => {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        name, password, email
+        name, password, email,pic : url
       })
     })
       .then(res => res.json())
@@ -79,47 +79,32 @@ const Signup = () => {
 
 
   }
-  return (
-    <div className='mycard'>
-      <div className='card auth-card input-field'>
-        <h2>Instagram</h2>
-        <input type="text"
-          placeholder="name"
-          value={name}
-          onChange={e => setName(e.target.value)}
-        />
-        <input type="text"
-          placeholder="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-        />
-        <input type="password"
-          placeholder="password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-        />
-        <div className="file-field input-field">
-          <div className="btn #039be5 blue darken-1">
-            <span>Upload Image</span>
-            <input
-              type="file"
-              onChange={e => setImage(e.target.files[0])} // in the 0th index there will be a file object
-            />
+  
+    return (
+      <div className='mycard'>
+        <div className='card auth-card input-field'>
+          <h2>Instagram</h2>
+          <input type="text" placeholder="name" value={name} onChange={e => setName(e.target.value)} />
+          <input type="text" placeholder="email" value={email} onChange={e => setEmail(e.target.value)} />
+          <input type="password" placeholder="password" value={password} onChange={e => setPassword(e.target.value)} />
+          <div className="file-field input-field">
+            <div className="btn #039be5 blue darken-1">
+              <span>Upload Image</span>
+              <input type="file" onChange={e => setImage(e.target.files[0])} />
+            </div>
+            <div className="file-path-wrapper">
+              <input className="file-path validate" type="text" />
+            </div>
           </div>
-          <div className="file-path-wrapper">
-            <input className="file-path validate" type="text" />
-          </div>
+          <button className="waves-effect waves-light btn #039be5 light-blue darken-1" onClick={postData}>Signup</button>
+          <Link to="/login">
+            <h5>already have an account ?</h5>
+          </Link>
         </div>
-        <button
-          className="waves-effect waves-light btn #039be5 light-blue darken-1"
-          onClick={postData}
-        >Signup</button>
-        <Link to="/login">
-          <h5 >already have an account ? </h5>
-        </Link>
       </div>
-    </div>
-  )
+    );
+    
+  
 }
 
 export default Signup

@@ -14,6 +14,10 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    pic : {
+        type : String ,
+        default :"https://res.cloudinary.com/sumit21/image/upload/v1685267254/images_ssfktw.png"
+    },
     followers: [
         {
             type: ObjectId,
